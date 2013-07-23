@@ -26,6 +26,8 @@ class PartyFoul::IssueRenderers::Rails < PartyFoul::IssueRenderers::Rack
   end
 
   def raw_title
-    %{#{env['action_controller.instance'].class}##{env['action_dispatch.request.path_parameters']['action']} (#{exception.class}) "#{exception.message}"}
+    return super unless controller = env['action_controller.instance']
+
+    %{#{controller.class}##{controller.action_name} (#{exception.class}) "#{exception.message}"}
   end
 end

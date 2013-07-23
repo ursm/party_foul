@@ -41,8 +41,8 @@ describe 'Rails Issue Renderer' do
       @exception = Exception.new('message')
       controller_instance = mock('Controller')
       controller_instance.stubs(:class).returns('LandingController')
+      controller_instance.stubs(:action_name).returns('index')
       env = {
-        'action_dispatch.request.path_parameters' => { 'controller' => 'landing', 'action' => 'index' },
         'action_controller.instance' => controller_instance
       }
       @rendered_issue = PartyFoul::IssueRenderers::Rails.new(@exception, env)
