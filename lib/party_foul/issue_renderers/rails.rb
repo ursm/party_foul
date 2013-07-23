@@ -11,8 +11,12 @@ class PartyFoul::IssueRenderers::Rails < PartyFoul::IssueRenderers::Rack
   #
   # @return [Hash]
   def session
-    parameter_filter = ActionDispatch::Http::ParameterFilter.new(env['action_dispatch.parameter_filter'])
-    parameter_filter.filter(env['rack.session'] || { } )
+    if rack_session = env['rack.session']
+      parameter_filter = ActionDispatch::Http::ParameterFilter.new(env['action_dispatch.parameter_filter'])
+      parameter_filter.filter(rack_session.to_hash)
+    else
+      {}
+    end
   end
 
   private
